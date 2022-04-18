@@ -3,10 +3,15 @@ from django.utils import timezone
 from django.urls import reverse
 from django.template.defaultfilters import slugify
 
-class Category(models.Model):
+class Todo(models.Model):
     title = models.CharField(max_length=250, unique=True)
     detail = models.TextField(null=True, blank=True)
+    is_done = models.BooleanField(default=False)
     created_date = models.DateField(default=timezone.now)
+    due_date = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ["-due_date"]
 
     def __str__(self):
         return self.title
@@ -18,7 +23,6 @@ class Todo(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, null=False, unique=True)   
     detail = models.TextField(null=True, blank=True)
-    is_done = models.BooleanField(default=False)
     created_date = models.DateField(default=timezone.now)
     due_date = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

@@ -14,7 +14,7 @@
           </p>
           <div class="flex items-center flex-wrap pb-4 mb-4 border-b-2 border-gray-800 border-opacity-75 mt-auto w-full">
             <a class="text-blue-400 inline-flex items-center">
-              <router-link to="/todo">Learn More</router-link>
+              <router-link :to="`/${id}`">Learn More</router-link>
               <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14"></path>
                 <path d="M12 5l7 7-7 7"></path>
