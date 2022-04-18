@@ -1,15 +1,28 @@
-from django.shortcuts import render
-from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import generics, permissions
 from todo.serializers import CategorySerializer, TodoSerializer
 from todo.models import Category, Todo
+from rest_framework import permissions
 
-class CategoryView(viewsets.ModelViewSet):
+class IsAuthorOrReadOnly(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.author == request.user
+
+class CategoryListView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_class = [permissions.IsAuthenticated]
 
-class TodoView(viewsets.ModelViewSet):
+class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_class = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class TodoListView(generics.ListCreateAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
-    permission_class = [permissions.IsAuthenticated]
+
+class TodoDetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_class = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
