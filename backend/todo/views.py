@@ -17,6 +17,7 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_class = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    lookup_field = 'id' 
 
 class TodoListView(generics.ListCreateAPIView):
     queryset = Todo.objects.all()
@@ -26,3 +27,4 @@ class TodoDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_class = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
+    lookup_field = 'id' 

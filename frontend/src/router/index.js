@@ -13,6 +13,11 @@ const routes = [
     component: () => import('../views/CategoryView.vue')
   },
   {
+    path: '/category/:id',
+    name: 'category-detail',
+    component: () => import('../views/CategoryDetailView.vue')
+  },
+  {
     path: '/todo',
     name: 'todo',
     component: () => import('../views/TodoView.vue')
