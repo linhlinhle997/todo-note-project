@@ -9,19 +9,34 @@ const routes = [
   },
   {
     path: '/category',
-    name: 'category',
-    component: () => import('../views/CategoryView.vue')
+    name: 'category-list',
+    component: () => import('../views/category/CategoryListView.vue')
   },
   {
     path: '/category/:id',
-    name: 'category-detail',
-    component: () => import('../views/CategoryDetailView.vue')
+    name: 'category-edit',
+    component: () => import('../views/category/CategoryEditView.vue')
+  },
+  {
+    path: '/category-add',
+    name: 'category-add',
+    component: () => import('../views/category/CategoryAddView.vue')
   },
   {
     path: '/todo',
-    name: 'todo',
-    component: () => import('../views/TodoView.vue')
-  }
+    name: 'todo-list',
+    component: () => import('../views/todo/TodoListView.vue')
+  },
+  {
+    path: '/todo/:id',
+    name: 'todo-edit',
+    component: () => import('../views/todo/TodoEditView.vue')
+  },
+  {
+    path: '/todo-add',
+    name: 'todo-add',
+    component: () => import('../views/todo/TodoAddView.vue')
+  },
 ]
 
 const router = createRouter({

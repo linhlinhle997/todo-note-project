@@ -1,13 +1,18 @@
 <template>
   <section class="text-gray-600 body-font">
-    <div class="container px-5 py-24 mx-auto">
+    <div class="container px-5 py-5 mx-auto">
+      <div class="flex justify-center" >
+        <a class="mb-10 hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-8 focus:outline-none rounded text-lg">
+          <router-link :to="`/category-add`">Add Category</router-link>
+        </a>
+      </div>
       <div class="flex flex-wrap -m-4">
         <div v-for="category in categories" class="p-4 md:w-1/3">
           <div class="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
             <div class="p-6">
-              <h2 class="mb-1 inline-block py-1 px-2 rounded bg-blue-50 text-blue-500 text-opacity-75 text-xs font-medium tracking-widest">
+              <h2 class="mb-1 inline-block py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
                 {{ format_date(category.created_date) }}
-                </h2>
+              </h2>
               <div class="m-2">
                 <router-link :to="`/todo`">
                   <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
@@ -17,15 +22,15 @@
                 </router-link>
               </div>
               <div class="flex items-center flex-wrap mt-auto w-full">
-                <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                  <a class="hover:text-blue-50 hover:bg-blue-500 inline-block py-1 px-2 rounded bg-blue-50 text-blue-500 text-opacity-75 text-xs font-medium tracking-widest">
+                <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1">
+                  <button class="hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 inline-block py-2 px-6 rounded text-opacity-75 text-xs font-medium tracking-widest">
                     <router-link :to="`/category/${category.id}/`">Edit</router-link>
-                  </a>
+                  </button>
                 </span>
                 <span class="text-gray-400 inline-flex items-center leading-none text-sm">
-                  <a v-on:click="delete_category(category.id)" class="hover:text-blue-50 hover:bg-red-400 inline-block py-1 px-2 rounded bg-blue-50 text-red-400 text-opacity-75 text-xs font-medium tracking-widest">
+                  <button v-on:click="delete_category(category.id)" class="text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-500 inline-block py-2 px-6 rounded text-opacity-75 text-xs font-medium tracking-widest">
                     Delete
-                  </a>
+                  </button>
                 </span>
               </div>
             </div>
@@ -73,7 +78,7 @@ export default {
     },
     format_date(value){
       if (value) {
-        return moment(String(value)).format('DD/MM/YYYY')
+        return moment(String(value)).format('DD/MM/YYYY, HH:mm:ss')
       }
     },
   }
