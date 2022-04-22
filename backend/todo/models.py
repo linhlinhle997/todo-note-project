@@ -24,19 +24,7 @@ class Todo(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ["-created_date","-due_date"]
+        ordering = ["is_done", "-created_date"]
 
     def __str__(self):
         return self.title
-
-    # def get_absolute_url(self):
-    #     kwargs = {
-    #         'pk': self.id,
-    #         'slug': self.slug
-    #     }
-    #     return reverse('todo-detail', kwargs=kwargs)
-
-    # def save(self, *args, **kwargs):
-    #     value = self.title
-    #     self.slug = slugify(value,)
-    #     super().save(*args, **kwargs)

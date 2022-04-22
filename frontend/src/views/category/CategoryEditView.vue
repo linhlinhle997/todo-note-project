@@ -86,7 +86,7 @@ export default {
         }
       }).then(response => {
         this.category_detail= response.data;
-        this.get_category();
+        this.$router.push({path: '/category'});
       });
     },
     format_date(value){

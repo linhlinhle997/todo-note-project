@@ -22,6 +22,11 @@ const routes = [
     name: 'category-add',
     component: () => import('../views/category/CategoryAddView.vue')
   },
+    {
+    path: '/category-add',
+    name: 'category-add',
+    component: () => import('../views/category/CategoryAddView.vue')
+  },
   {
     path: '/todo',
     name: 'todo-list',

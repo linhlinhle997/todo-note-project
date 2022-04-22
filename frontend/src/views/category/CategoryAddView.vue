@@ -21,7 +21,7 @@
 					<div class="p-2 w-full">
 						<div class="relative">
 							<label for="name" class="leading-7 text-sm text-gray-600">Create date</label>
-							<Datepicker v-model="date"/>
+							<Datepicker v-model="date" enableSeconds disabled/>
 						</div>
 					</div>
 				</div>

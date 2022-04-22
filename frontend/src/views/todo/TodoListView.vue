@@ -7,37 +7,73 @@
         </a>
       </div>
       <div class="-my-8 divide-y-2 divide-gray-100">
-        <div v-for="todo in todos" class="py-8 flex flex-wrap md:flex-nowrap">
-          <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-            <span class="font-semibold title-font text-gray-700">CATEGORY</span>
-            <span>
-              <h2 class="mb-1 inline-block py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
-                {{ format_date(todo.created_date) }}
+        <div v-for="todo in todos">
+          <div v-if="todo.is_done==false" class="py-8 flex flex-wrap md:flex-nowrap">
+            <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+              <span class="font-semibold title-font text-gray-700">{{todo.category.title}}</span>
+              <span>
+                <h2 class="mb-1 inline-block py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
+                  {{ format_date(todo.created_date) }}
+                </h2>
+              </span>
+              <span class="mt-5 flex justify-center text-lg">
+                <p class="py-2 px-6 rounded text-red-500 bg-red-50" v-if="todo.is_done==true">
+                  Done
+                </p>
+                <p class="py-2 px-6 rounded text-red-500 bg-red-50" v-if="todo.is_done==false">
+                  Todo
+                </p>
+              </span>
+            </div>
+            <div class="md:flex-grow">
+              <h2 class="text-2xl font-medium text-gray-900 title-font mb-2 ">
+                {{todo.title}}
               </h2>
-            </span>
-            <span class="mt-5 flex justify-center text-lg">
-              <p class="py-2 px-6 rounded text-red-500 bg-red-50" v-if="todo.is_done==true">
-                Done
+              <p class="leading-relaxed">
+                {{todo.detail}}
               </p>
-              <p class="py-2 px-6 rounded text-red-500 bg-red-50" v-if="todo.is_done==false">
-                Todo
-              </p>
-            </span>
+              <div class="flex justify-end mt-2">
+                <button class="inline-flex hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-6 focus:outline-none rounded text-sm">
+                  <router-link :to="`/todo/${todo.id}/`">Edit</router-link>
+                </button>
+                <button v-on:click="delete_todo(todo.id)" class="ml-4 mr-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-500 border-0 py-2 px-6 focus:outline-none rounded text-sm">
+                  Delete
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="md:flex-grow">
-            <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">
-              {{todo.title}}
-            </h2>
-            <p class="leading-relaxed">
-              {{todo.detail}}
-            </p>
-            <div class="flex justify-end mt-2">
-              <button class="inline-flex hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-6 focus:outline-none rounded text-sm">
-                <router-link :to="`/todo/${todo.id}/`">Edit</router-link>
-              </button>
-              <button v-on:click="delete_todo(todo.id)" class="ml-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-500 border-0 py-2 px-6 focus:outline-none rounded text-sm">
-                Delete
-              </button>
+          <div v-else class="py-8 flex flex-wrap md:flex-nowrap">
+            <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+              <span class="line-through font-semibold title-font text-gray-700">{{todo.category.title}}</span>
+              <span>
+                <h2 class="line-through mb-1 inline-block py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
+                  {{ format_date(todo.created_date) }}
+                </h2>
+              </span>
+              <span class="mt-5 flex justify-center text-lg">
+                <p class="line-through py-2 px-6 rounded text-red-500 bg-red-50" v-if="todo.is_done==true">
+                  Done
+                </p>
+                <p class="line-through py-2 px-6 rounded text-red-500 bg-red-50" v-if="todo.is_done==false">
+                  Todo
+                </p>
+              </span>
+            </div>
+            <div class="md:flex-grow">
+              <h2 class="line-through text-2xl font-medium text-gray-900 title-font mb-2 ">
+                {{todo.title}}
+              </h2>
+              <p class="line-through leading-relaxed">
+                {{todo.detail}}
+              </p>
+              <div class="flex justify-end mt-2">
+                <button class="inline-flex hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-6 focus:outline-none rounded text-sm">
+                  <router-link :to="`/todo/${todo.id}/`">Edit</router-link>
+                </button>
+                <button v-on:click="delete_todo(todo.id)" class="ml-4 mr-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-500 border-0 py-2 px-6 focus:outline-none rounded text-sm">
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>
