@@ -42,6 +42,11 @@ const routes = [
     name: 'todo-add',
     component: () => import('../views/todo/TodoAddView.vue')
   },
+  {
+    path: '/todo/todo-by-category/:id',
+    name: 'todo-by-category',
+    component: () => import('../views/todo/todo-by-category/TodoListView.vue')
+  },
 ]
 
 const router = createRouter({

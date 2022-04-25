@@ -23,11 +23,15 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
 class TodoListView(generics.ListCreateAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['category']
 
 class TodoDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_class = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
     lookup_field = 'id' 
+
+class TodoByCategoryView(generics.ListCreateAPIView):
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['category']

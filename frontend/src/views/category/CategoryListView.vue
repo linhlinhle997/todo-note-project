@@ -14,7 +14,7 @@
                 {{ format_date(category.created_date) }}
               </h2>
               <div class="m-2">
-                <router-link :to="`/todo/`">
+                <router-link :to="`/todo/todo-by-category/${category.id}/`">
                   <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
                     {{ category.title }}
                   </h1>

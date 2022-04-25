@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import CategoryListView, CategoryDetailView, TodoListView, TodoDetailView
+from .views import CategoryListView, CategoryDetailView, TodoListView, TodoDetailView, TodoByCategoryView
 
 urlpatterns = [
     path('category/', CategoryListView.as_view(), name='category-list'),
@@ -8,4 +8,6 @@ urlpatterns = [
     
     path('todo/', TodoListView.as_view(), name='todo-list'),
     path('todo/<int:id>/', TodoDetailView.as_view(), name='todo-detail'),
+
+    path('todo/todo-by-category/', TodoByCategoryView.as_view(),name="todo-by-category"),
 ]
