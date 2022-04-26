@@ -1,10 +1,13 @@
 <template>
   <section class="text-gray-600 body-font">
     <div class="container px-5 py-5 mx-auto">
-      <div class="flex justify-center" >
-        <a class="mb-10 hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-8 focus:outline-none rounded text-lg">
+      <div class="flex justify-end">
+        <a class="hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-8 focus:outline-none rounded text-lg">
           <router-link :to="`/category-add`">Add Category</router-link>
         </a>
+      </div>
+      <div class="flex justify-center mb-10 mt-5 text-2xl font-medium text-gray-900 title-font">
+        Category List
       </div>
       <div class="flex flex-wrap -m-4">
         <div v-for="category in categories" class="p-4 md:w-1/3">

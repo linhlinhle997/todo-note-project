@@ -1,10 +1,20 @@
 <template>
   <section class="text-gray-600 body-font overflow-hidden">
     <div class="container px-5 py-5 mx-auto">
-      <div class="flex justify-center" >
-        <a class="mb-10 hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-8 focus:outline-none rounded text-lg">
-          <router-link :to="`/todo-add`">Add Todo</router-link>
+      <div class="flex justify-between">
+        <a class="hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-8 inline-flex items-center focus:outline-none rounded text-lg">
+          <router-link :to="`/category`">
+            <svg class="w-6 h-6 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+          </router-link>
         </a>
+        <a class="hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-8 focus:outline-none rounded text-lg">
+          <router-link :to="`/todo-add/todo-by-category/${this.$route.params.id}/`">Add Todo</router-link>
+        </a>
+      </div>
+      <div v-for="category in get_categoryName" class="flex justify-center mb-10 mt-5 text-2xl font-medium text-gray-900 title-font">
+        Todo List Of {{category.title}}
       </div>
       <div class="-my-8 divide-y-2 divide-gray-100">
         <div v-for="todo in todos">
@@ -16,7 +26,7 @@
                   {{ format_date(todo.created_date) }}
                 </h2>
               </span>
-              <span class="mt-5 flex justify-center text-lg">
+              <span class="mt-5 mb-5 flex justify-center text-lg">
                 <p class="py-2 px-6 rounded text-red-500 bg-red-50" v-if="todo.is_done==true">
                   Done
                 </p>
@@ -24,9 +34,14 @@
                   Todo
                 </p>
               </span>
+              <span>
+                <h2 class="mb-1 inline-block py-1 px-2 rounded text-blue-500 bg-blue-50 text-opacity-75 text-xs font-medium tracking-widest">
+                  {{ format_date(todo.due_date) }}
+                </h2>
+              </span>
             </div>
             <div class="md:flex-grow">
-              <h2 class="text-2xl font-medium text-gray-900 title-font mb-2 ">
+              <h2 class="text-xl font-medium text-gray-900 title-font mb-2">
                 {{todo.title}}
               </h2>
               <p class="leading-relaxed">
@@ -50,24 +65,29 @@
                   {{ format_date(todo.created_date) }}
                 </h2>
               </span>
-              <span class="mt-5 flex justify-center text-lg">
-                <p class="line-through py-2 px-6 rounded text-red-500 bg-red-50" v-if="todo.is_done==true">
+              <span class="mt-5 mb-5 flex justify-center text-lg">
+                <p class="line-through py-2 px-6 rounded text-gray-700 bg-gray-100" v-if="todo.is_done==true">
                   Done
                 </p>
-                <p class="line-through py-2 px-6 rounded text-red-500 bg-red-50" v-if="todo.is_done==false">
+                <p class="line-through py-2 px-6 rounded text-gray-700 bg-gray-100" v-if="todo.is_done==false">
                   Todo
                 </p>
               </span>
+              <span>
+                <h2 class="line-through mb-1 inline-block py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
+                  {{ format_date(todo.due_date) }}
+                </h2>
+              </span>
             </div>
             <div class="md:flex-grow">
-              <h2 class="line-through text-2xl font-medium text-gray-900 title-font mb-2 ">
+              <h2 class="line-through text-xl font-medium text-gray-900 title-font mb-2 ">
                 {{todo.title}}
               </h2>
               <p class="line-through leading-relaxed">
                 {{todo.detail}}
               </p>
               <div class="flex justify-end mt-2">
-                <button class="inline-flex hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-6 focus:outline-none rounded text-sm">
+                <button class="inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-500 border-0 py-2 px-6 focus:outline-none rounded text-sm">
                   <router-link :to="`/todo/${todo.id}/`">Edit</router-link>
                 </button>
                 <button v-on:click="delete_todo(todo.id)" class="ml-4 mr-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-500 border-0 py-2 px-6 focus:outline-none rounded text-sm">
@@ -90,17 +110,24 @@ export default {
   name: 'Todo',
   data () {
     return {
-      todos: [] 
+      todos: [],
+      categories: [],
     }
   },
   mounted () { 
     this.get_todos();
+    this.get_categories();
+  },
+  computed: {
+    get_categoryName: function () {
+      return this.categories.filter(i => i.id == this.$route.params.categoryId)
+    },
   },
   methods: {
     get_todos() {
         axios({
             method:'get',
-            url: 'http://127.0.0.1:8000/api/todo/todo-by-category/?category=' + this.$route.params.id,
+            url: 'http://127.0.0.1:8000/api/todo/?category=' + this.$route.params.categoryId,
             auth: {
                 username: 'admin',
                 password: 'admin@123'
@@ -117,6 +144,16 @@ export default {
         }
       }).then(response => this.get_todos());
     },
+		get_categories() {
+      axios({
+          method:'get',
+          url: 'http://127.0.0.1:8000/api/category/',
+          auth: {
+              username: 'admin',
+              password: 'admin@123'
+          }
+      }).then(response => this.categories = response.data);
+		},
     format_date(value){
       if (value) {
         return moment(String(value)).format('DD/MM/YYYY, HH:mm:ss')

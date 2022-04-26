@@ -77,7 +77,7 @@
 					}
 				}).then(response => {
 					this.category = response.data;
-					this.$router.push({path: '/category'});
+					this.$router.go(-1);
 				});
 			},
 		},

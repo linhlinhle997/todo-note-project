@@ -13,7 +13,7 @@ const routes = [
     component: () => import('../views/category/CategoryListView.vue')
   },
   {
-    path: '/category/:id',
+    path: '/category/:categoryId',
     name: 'category-edit',
     component: () => import('../views/category/CategoryEditView.vue')
   },
@@ -33,7 +33,7 @@ const routes = [
     component: () => import('../views/todo/TodoListView.vue')
   },
   {
-    path: '/todo/:id',
+    path: '/todo/:todoId',
     name: 'todo-edit',
     component: () => import('../views/todo/TodoEditView.vue')
   },
@@ -42,10 +42,16 @@ const routes = [
     name: 'todo-add',
     component: () => import('../views/todo/TodoAddView.vue')
   },
+
   {
-    path: '/todo/todo-by-category/:id',
+    path: '/todo/todo-by-category/:categoryId',
     name: 'todo-by-category',
-    component: () => import('../views/todo/todo-by-category/TodoListView.vue')
+    component: () => import('../views/todo/TodoListByCategoryView.vue')
+  },
+  {
+    path: '/todo-add/todo-by-category/:categoryId',
+    name: 'todo-add-by-category',
+    component: () => import('../views/todo/TodoAddView.vue')
   },
 ]
 

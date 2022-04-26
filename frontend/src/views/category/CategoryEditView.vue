@@ -68,7 +68,7 @@ export default {
     get_category() {
       axios({
         method: 'get',
-        url: 'http://127.0.0.1:8000/api/category/' + this.$route.params.id + '/',
+        url: 'http://127.0.0.1:8000/api/category/' + this.$route.params.categoryId + '/',
         auth: {
           username: 'admin',
           password: 'admin@123'
@@ -78,7 +78,7 @@ export default {
     update_category() {
       axios({
         method: 'put',
-        url: 'http://127.0.0.1:8000/api/category/' + this.$route.params.id + '/',
+        url: 'http://127.0.0.1:8000/api/category/' + this.$route.params.categoryId + '/',
         data: this.category_detail,
         auth: {
           username: 'admin',
@@ -86,7 +86,7 @@ export default {
         }
       }).then(response => {
         this.category_detail= response.data;
-        this.$router.push({path: '/category'});
+        this.$router.go(-1);
       });
     },
     format_date(value){

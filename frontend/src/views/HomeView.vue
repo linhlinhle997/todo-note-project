@@ -26,3 +26,9 @@ export default {
   name: 'HomeView',
 }
 </script>
+<style lang="css">
+    .router-link-exact-active {
+      padding-bottom: 3px;
+      border-bottom: 3px solid #3b82f6;
+    }
+</style>

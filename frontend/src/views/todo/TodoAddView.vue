@@ -31,17 +31,23 @@
               <label class="leading-7 text-sm text-blue-500" for="flexSelect">
                 Category
               </label>
-              <select v-model="selected" class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-                <option v-for="category in categories" :value="category.id">
-                  {{ category.title }}
-                </option>
-              </select>
+							<select v-model="selected" class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+								<option v-for="category in categories" :value="category.id">
+									{{ category.title }}
+								</option>
+							</select>
             </div>
           </div>
 					<div class="p-2 w-full">
             <div class="relative">
               <label for="name" class="leading-7 text-sm text-blue-500">Due date</label>
-              <Datepicker v-model="due_date" enableSeconds/>
+              <Datepicker v-model="due_date" enableSeconds class="dp__theme_light">
+                <template #calendar-header="{ index, day }">
+                  <div :class="index === 5 || index === 6 ? 'red-color' : ''">
+                    {{ day }}
+                  </div>
+                </template>
+              </Datepicker>
             </div>
           </div>
           <div class="p-2 w-full">
@@ -79,7 +85,7 @@
 				create_date: null,
 				due_date: null,
 				categories: [],
-				selected: {},
+				selected: this.$route.params.categoryId,
 			}
 		},
 		mounted () {
@@ -113,7 +119,7 @@
 					}
 				}).then(response => {
 					this.todo = response.data;
-					this.$router.push({path: '/todo'});
+					this.$router.go(-1);
 				});
 			},
 			get_categories() {
@@ -129,3 +135,14 @@
 		},
 	}
 </script>
+
+<style>
+    .red-color {
+        color: #3b82f6;
+    }
+    .dp__theme_light {
+      --dp-success-color: #3b82f6;
+      --dp-success-color-disabled: #bfdbfe
+;
+    }
+</style>

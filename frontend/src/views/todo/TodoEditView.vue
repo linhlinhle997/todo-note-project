@@ -42,7 +42,13 @@
 					<div class="p-2 w-full">
             <div class="relative">
               <label for="name" class="leading-7 text-sm text-blue-500">Due date</label>
-              <Datepicker v-model="todo_detail.due_date" enableSeconds/>
+              <Datepicker v-model="todo_detail.due_date" enableSeconds class="dp__theme_light">
+                <template #calendar-header="{ index, day }">
+                  <div :class="index === 5 || index === 6 ? 'red-color' : ''">
+                    {{ day }}
+                  </div>
+                </template>
+              </Datepicker>
             </div>
           </div>
           <div class="p-2 w-full">
@@ -90,7 +96,7 @@ export default {
     get_todo() {
       axios({
         method: 'get',
-        url: 'http://127.0.0.1:8000/api/todo/' + this.$route.params.id + '/',
+        url: 'http://127.0.0.1:8000/api/todo/' + this.$route.params.todoId + '/',
         auth: {
           username: 'admin',
           password: 'admin@123'
@@ -100,7 +106,7 @@ export default {
     update_todo() {
       axios({
         method: 'put',
-        url: 'http://127.0.0.1:8000/api/todo/' + this.$route.params.id + '/',
+        url: 'http://127.0.0.1:8000/api/todo/' + this.$route.params.todoId + '/',
         data: {
           title : this.todo_detail.title,
           detail: this.todo_detail.detail,
@@ -114,7 +120,7 @@ export default {
         }
       }).then(response => {
         this.todo_detail= response.data;
-        this.$router.push({path: '/todo'});
+        this.$router.go(-1);
       });
     },
     get_categories() {
@@ -135,3 +141,14 @@ export default {
   }
 }
 </script>
+
+<style>
+    .red-color {
+        color: #3b82f6;
+    }
+    .dp__theme_light {
+      --dp-success-color: #3b82f6;
+      --dp-success-color-disabled: #bfdbfe
+;
+    }
+</style>
