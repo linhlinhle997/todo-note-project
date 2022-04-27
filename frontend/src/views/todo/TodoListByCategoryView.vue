@@ -13,10 +13,10 @@
           <router-link :to="`/todo-add/todo-by-category/${this.$route.params.categoryId}/`">Add Todo</router-link>
         </a>
       </div>
-      <div v-for="category in get_categoryName" class="flex justify-center py-5 text-2xl font-medium text-gray-900 title-font">
-        Todo List Of {{category.title}}
-      </div>
       <div class="-my-8 divide-y-2 divide-gray-100 py-5">
+        <div v-for="category in get_categoryName" class="flex justify-center py-5 text-2xl font-medium text-gray-900 title-font">
+          Todo List Of {{category.title}}
+        </div>
         <div v-for="todo in todos">
           <div v-if="todo.is_done==false" class="py-8 flex flex-wrap md:flex-nowrap">
             <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">

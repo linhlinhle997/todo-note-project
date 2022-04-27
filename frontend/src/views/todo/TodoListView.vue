@@ -3,13 +3,13 @@
     <div class="container px-5 py-5 mx-auto">
       <div class="flex justify-end">
         <a class="hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-8 focus:outline-none rounded text-lg">
-          <router-link :to="`/todo-add/todo-by-category/${this.$route.params.id}/`">Add Todo</router-link>
+          <router-link :to="`/todo-add/`">Add Todo</router-link>
         </a>
       </div>
-      <div class="flex justify-center mb-5 mt-5 text-3xl font-medium text-gray-900 title-font">
-        Todo List
-      </div>
-      <div class="-my-8 divide-y-2 divide-gray-100">
+      <div class="-my-8 divide-y-2 divide-gray-100 py-5">
+        <div class="flex justify-center py-5 text-3xl font-medium text-gray-900 title-font">
+          Todo List
+        </div>
         <div v-for="todo in todos">
           <div v-if="todo.is_done==false" class="py-8 flex flex-wrap md:flex-nowrap">
             <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
