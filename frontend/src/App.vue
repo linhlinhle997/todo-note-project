@@ -13,11 +13,21 @@
         <a class="mr-5 hover:text-gray-900 hover:bg-gray-100 border-0 py-1 px-3 rounded">
           <router-link to="/todo">Todo</router-link>
         </a>
-        <a class="mr-5 hover:text-gray-900 hover:bg-gray-100 border-0 py-1 px-3 rounded">
+        <!-- <a class="mr-5 hover:text-gray-900 hover:bg-gray-100 border-0 py-1 px-3 rounded">
           <router-link to="/note">Note</router-link>
-        </a>
+        </a> -->
       </nav>
-      <button class="inline-flex items-center text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-500 border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0">Logout
+      <button class="mr-5 inline-flex items-center text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0">
+        Signup
+      </button>
+      <button class="mr-5 inline-flex items-center text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0">
+        Logout
+        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </button>
+      <button class="inline-flex items-center text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0">
+        Login
         <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
           <path d="M5 12h14M12 5l7 7-7 7"></path>
         </svg>

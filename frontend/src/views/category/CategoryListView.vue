@@ -6,7 +6,7 @@
           <router-link :to="`/category-add`">Add Category</router-link>
         </a>
       </div>
-      <div class="flex justify-center mb-10 mt-5 text-2xl font-medium text-gray-900 title-font">
+      <div class="flex justify-center mb-5 mt-5 text-3xl font-medium text-gray-900 title-font">
         Category List
       </div>
       <div class="flex flex-wrap -m-4">
@@ -31,7 +31,7 @@
                   </button>
                 </span>
                 <span class="text-gray-400 inline-flex items-center leading-none text-sm">
-                  <button v-on:click="delete_category(category.id)" class="text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-500 inline-block py-2 px-6 rounded text-opacity-75 text-xs font-medium tracking-widest">
+                  <button v-on:click="delete_category(category.id)" class="text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 inline-block py-2 px-6 rounded text-opacity-75 text-xs font-medium tracking-widest">
                     Delete
                   </button>
                 </span>
@@ -62,7 +62,7 @@ export default {
     get_categories() {
         axios({
             method:'get',
-            url: 'http://127.0.0.1:8000/api/category/',
+            url: '/api/category/',
             auth: {
                 username: 'admin',
                 password: 'admin@123'
@@ -72,7 +72,7 @@ export default {
     delete_category(id) {
       axios({
         method: 'delete',
-        url: 'http://127.0.0.1:8000/api/category/' + id + '/',
+        url: '/api/category/' + id + '/',
         auth: {
           username: 'admin',
           password: 'admin@123'

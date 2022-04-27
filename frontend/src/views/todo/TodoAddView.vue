@@ -1,6 +1,15 @@
 <template>
-	<section class="text-gray-600 body-font relative">
-		<div class="container px-5 py-24 mx-auto">
+	<section class="text-blue-500 body-font relative">
+		<div class="container px-5 mx-auto">
+			<div class="flex justify-start py-5">
+				<a class="text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-8 inline-flex items-center focus:outline-none rounded text-lg">
+					<router-link :to="`/todo`">
+						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+						</svg>
+					</router-link>
+				</a>
+			</div>
 			<div class="flex flex-col text-center w-full">
 				<h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-blue-500">Add Todo</h1>
 			</div>
@@ -61,7 +70,7 @@
 						<button v-on:click="add_todo()" class="inline-flex text-blue-500 hover:text-blue-50 hover:bg-blue-500 bg-blue-50 border-0 py-2 px-6 focus:outline-non rounded text-lg">
 							Save
 						</button>
-						<button class="ml-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-500 border-0 py-2 px-6 focus:outline-none rounded text-lg">
+						<button class="ml-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-6 focus:outline-none rounded text-lg">
 							<router-link to="/todo">Cancel</router-link>
 						</button>
 				</div>
@@ -104,7 +113,7 @@
 			add_todo() {
 				axios({
 					method: 'post',
-					url: 'http://127.0.0.1:8000/api/todo/',
+					url: '/api/todo/',
 					data: {
 						title : this.todo.title,
 						detail: this.todo.detail,
@@ -125,7 +134,7 @@
 			get_categories() {
         axios({
             method:'get',
-            url: 'http://127.0.0.1:8000/api/category/',
+            url: '/api/category/',
             auth: {
                 username: 'admin',
                 password: 'admin@123'
