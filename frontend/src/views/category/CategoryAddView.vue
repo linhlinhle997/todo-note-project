@@ -2,13 +2,11 @@
 	<section class="text-blue-500 body-font relative">
 		<div class="container px-5 mx-auto">
 			<div class="flex justify-start py-5">
-				<a class="text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-8 inline-flex items-center focus:outline-none rounded text-lg">
-					<router-link :to="`/category`">
-						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-						</svg>
-					</router-link>
-				</a>
+				<router-link :to="`/category`" tag="button" class="text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-8 inline-flex items-center focus:outline-none rounded text-md">
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+					</svg>
+				</router-link>
 			</div>
 			<div class="flex flex-col text-center w-full">
 				<h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-blue-500">Add Category</h1>
@@ -34,13 +32,20 @@
 						</div>
 					</div>
 				</div>
-				<div class="flex justify-center mt-8">
-						<button v-on:click="add_category()" class="inline-flex text-blue-500 hover:text-blue-50 hover:bg-blue-500 bg-blue-50 border-0 py-2 px-6 focus:outline-non rounded text-lg">
+        <div class="text-red-500 pt-3">
+          <div v-for="value, key in error" >
+            <div v-for="text in value">
+              * {{format_key(key)}}: {{text}} <br>
+            </div>
+          </div>
+        </div>
+				<div class="flex justify-center mt-5">
+						<button v-on:click.prevent="add_category()" class="inline-flex text-blue-500 hover:text-blue-50 hover:bg-blue-500 bg-blue-50 border-0 py-2 px-6 focus:outline-non rounded text-lg">
 							Save
 						</button>
-						<button class="ml-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-6 focus:outline-none rounded text-lg">
-							<router-link to="/category">Cancel</router-link>
-						</button>
+						<router-link tag="button" to="/category" class="ml-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-6 focus:outline-none rounded text-lg">
+							Cancel
+						</router-link>
 				</div>
 			</div>
 		</div>
@@ -60,6 +65,8 @@
 			return {
 				category: {},
 				date: null,
+				error: null,
+				changeKey: null,
 			}
 		},
 		mounted () {},
@@ -87,7 +94,15 @@
 				}).then(response => {
 					this.category = response.data;
 					this.$router.go(-1);
-				});
+				}).catch(err => this.error = err.response.data);
+			},
+			format_key(key) {
+				if(key == 'title')
+					return this.changeKey = 'Title';
+				if(key == 'detail')
+					return this.changeKey = 'Detail';
+				if(key == 'created_date')
+					return this.changeKey = 'Create date';
 			},
 		},
 	}

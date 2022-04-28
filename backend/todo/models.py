@@ -1,7 +1,7 @@
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from django.urls import reverse
-from django.template.defaultfilters import slugify
+from django.contrib.auth import get_user_model
 
 class Category(models.Model):
     title = models.CharField(max_length=250, unique=True)
@@ -16,7 +16,6 @@ class Category(models.Model):
 
 class Todo(models.Model):
     title = models.CharField(max_length=250)
-    # slug = models.SlugField(max_length=250, null=False, unique=True)   
     detail = models.TextField(null=True, blank=True)
     is_done = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=timezone.now)
