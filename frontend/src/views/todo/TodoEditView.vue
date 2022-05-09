@@ -1,8 +1,8 @@
 <template>
   <section class="text-blue-500 body-font relative">
-    <div class="container px-5 mx-auto">
-      <div class="flex justify-start py-5">
-        <router-link tag="button" :to="`/todo`" class="text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-8 inline-flex items-center focus:outline-none rounded text-md">
+    <div class="container px-5 py-5 mx-auto">
+      <div class="flex justify-start pb-5">
+        <router-link tag="button" :to="`/todo`" class="text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-5 inline-flex items-center focus:outline-none rounded text-md">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>

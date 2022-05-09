@@ -6,13 +6,13 @@
         <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Todo & Note</h1>
         <p class="mb-8 leading-relaxed">Made by me and Just for me hehehe</p>
         <div class="flex justify-center">
-          <router-link tag="button" to="/category" class="inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-6 focus:outline-none rounded text-lg">
+          <router-link tag="button" to="/category" class="inline-flex hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-6 focus:outline-none rounded text-lg">
             Category
           </router-link>
-          <router-link tag="button" to="/todo" class="ml-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-6 focus:outline-none rounded text-lg">
+          <router-link tag="button" to="/todo" class="ml-4 inline-flex hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-6 focus:outline-none rounded text-lg">
             Todo
           </router-link>
-          <router-link tag="button" to="/note" class="ml-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-6 focus:outline-none rounded text-lg">
+          <router-link tag="button" to="/note" class="ml-4 inline-flex hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-6 focus:outline-none rounded text-lg">
             Note
           </router-link>
         </div>
