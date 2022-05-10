@@ -1,9 +1,9 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
+
 from todo.serializers import CategorySerializer, TodoSerializer
 from todo.models import Category, Todo
-from rest_framework import permissions
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
+
 
 class CategoryListView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
