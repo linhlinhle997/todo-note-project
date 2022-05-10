@@ -114,10 +114,6 @@ export default {
       axios({
         method: 'get',
         url: '/api/todo/' + this.$route.params.todoId + '/',
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
-        }
       }).then(response => this.todo_detail = response.data);
     },
     update_todo() {
@@ -131,10 +127,6 @@ export default {
           category: this.todo_detail.category,
           due_date: this.todo_detail.due_date,
         },
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
-        }
       }).then(response => {
         this.todo_detail= response.data;
         this.$router.go(-1);
@@ -144,10 +136,6 @@ export default {
         axios({
             method:'get',
             url: '/api/category/',
-            auth: {
-                username: 'admin',
-                password: 'admin@123'
-            }
         }).then(response => this.categories= response.data);
     },
     format_date(value){

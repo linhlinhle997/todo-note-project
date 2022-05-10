@@ -85,10 +85,6 @@ export default {
       axios({
         method: 'get',
         url: '/api/category/' + this.$route.params.categoryId + '/',
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
-        }
       }).then(response => this.category_detail= response.data);
     },
     update_category() {
@@ -96,10 +92,6 @@ export default {
         method: 'put',
         url: '/api/category/' + this.$route.params.categoryId + '/',
         data: this.category_detail,
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
-        }
       }).then(response => {
         this.category_detail= response.data;
         this.$router.go(-1);

@@ -69,7 +69,6 @@
 				changeKey: null,
 			}
 		},
-		mounted () {},
 		components: { Datepicker },
 		setup() {
 			const date = ref(new Date());
@@ -87,10 +86,6 @@
 						detail: this.category.detail,
 						created_date: moment(this.date).format('YYYY-MM-DDThh:mm:ss'),
 					},
-					auth: {
-						username: 'admin',
-						password: 'admin@123'
-					}
 				}).then(response => {
 					this.category = response.data;
 					this.$router.go(-1);

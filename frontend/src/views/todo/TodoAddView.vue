@@ -130,10 +130,6 @@
 						due_date: moment(this.due_date).format('YYYY-MM-DDThh:mm:ss'),
 						created_date: moment(this.create_date).format('YYYY-MM-DDThh:mm:ss'),
 					},
-					auth: {
-						username: 'admin',
-						password: 'admin@123'
-					}
 				}).then(response => {
 					this.todo = response.data;
 					this.$router.go(-1);
@@ -143,10 +139,6 @@
         axios({
             method:'get',
             url: '/api/category/',
-            auth: {
-                username: 'admin',
-                password: 'admin@123'
-            }
         }).then(response => this.categories= response.data);
 			},
 			format_key(key) {
