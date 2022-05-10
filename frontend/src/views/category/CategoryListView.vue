@@ -22,12 +22,24 @@
           <div class="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
             <div class="p-6">
               <div class="flex justify-between">
-                <h2 class="mb-1 inline-block py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
+                <h2 class="mb-1 inline-block py-1 px-2 mr-5 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
                   {{ format_date(category.created_date) }}
                 </h2>
-                <h2 class="mb-1 inline-block py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
-                  <span class="text-blue-500">{{count_Status(category.todos, false)}}</span> | <span class="text-gray-700">{{count_Status(category.todos, true)}}</span>
-                </h2>
+                <div class="inline-block mb-1 py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
+                  <span class="inline-flex items-center text-blue-500">
+                    <svg width="16" height="16" fill="currentColor" class="bi bi-activity" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z"/>
+                    </svg>
+                    {{count_Status(category.todos, false)}}
+                    &nbsp;
+                  </span>
+                  <span class="inline-flex items-center text-gray-700">
+                    <svg width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                      <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                    </svg>
+                    {{count_Status(category.todos, true)}}
+                  </span>
+                </div>
               </div>
               <div class="m-2">
                 <router-link tag="button" :to="`/todo/todo-by-category/${category.id}/`">

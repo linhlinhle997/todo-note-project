@@ -28,24 +28,25 @@
           <div v-if="todo.is_done==false" class="py-8 flex flex-wrap md:flex-nowrap">
             <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
               <span class="font-semibold title-font text-gray-700">{{todo.category.title}}</span>
-              <span>
+              <span class="mr-5">
                 <h2 class="mb-1 inline-block py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
                   {{ format_date(todo.created_date) }}
                 </h2>
               </span>
               <button v-on:click="update_todo(todo.id)" class="mt-5 mb-5 flex justify-center text-lg">
-                <span v-if="isDeadline(todo.due_date) == false">
-                  <p class="py-2 px-6 rounded text-blue-500 bg-blue-50 hover:text-blue-50 hover:bg-blue-500" v-if="todo.is_done==false">
-                    Todo
-                  </p>
+                <span v-if="isDeadline(todo.due_date) == false" class="py-2 px-6 rounded text-blue-500 bg-blue-50 hover:text-blue-50 hover:bg-blue-500" >
+                  Todo
                 </span>
-                <span v-else>
-                  <p class="py-2 px-6 rounded text-red-500 bg-red-50 hover:text-red-50 hover:bg-red-500" v-if="todo.is_done==false">
-                    Todo
-                  </p>
+                <span v-else class="inline-flex items-center py-2 px-6 rounded text-red-500 bg-red-50 hover:text-red-50 hover:bg-red-500">
+                  <svg width="15" height="15" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
+                    <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
+                    <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
+                  </svg>
+                  &nbsp;
+                  Todo
                 </span>
               </button>
-              <span>
+              <span class="mr-5">
                 <h2 class="mb-1 inline-block py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
                   {{ format_date(todo.due_date) }}
                 </h2>
@@ -75,7 +76,7 @@
           <div v-else class="py-8 flex flex-wrap md:flex-nowrap">
             <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
               <span class="line-through font-semibold title-font text-gray-700">{{todo.category.title}}</span>
-              <span>
+              <span class="mr-5">
                 <h2 class="line-through mb-1 inline-block py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
                   {{ format_date(todo.created_date) }}
                 </h2>
@@ -87,7 +88,7 @@
                   </svg>
                 </span>
               </button>
-              <span>
+              <span class="mr-5">
                 <h2 class="line-through mb-1 inline-block py-1 px-2 rounded text-gray-700 bg-gray-100 text-opacity-75 text-xs font-medium tracking-widest">
                   {{ format_date(todo.due_date) }}
                 </h2>
