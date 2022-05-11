@@ -4,10 +4,10 @@ from todo.models import Category, Todo
 class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
-        fields = ("title", "detail", "is_done", "created_date", "due_date", "id", "category")
+        fields = ("id", "title", "detail", "is_done", "category", "created_date", "due_date")
 
 class CategorySerializer(serializers.ModelSerializer):
     todos = TodoSerializer(source='todo_set', many=True, read_only=True)
     class Meta:
         model = Category
-        fields = ("title", "detail", "created_date", "id", "todos")
+        fields = ("id", "title", "detail", "created_date", "todos")
