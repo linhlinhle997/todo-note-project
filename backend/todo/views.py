@@ -10,7 +10,7 @@ class CategoryListView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ['title', 'detail']
+    search_fields = ['title', 'description']
 
 
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -25,7 +25,7 @@ class TodoListView(generics.ListCreateAPIView):
     serializer_class = TodoSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['category']
-    search_fields = ['title', 'detail']
+    search_fields = ['title', 'description']
 
 class TodoDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]

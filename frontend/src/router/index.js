@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 const routes = [
+  // Auth Page View
   {
     path: '/login',
     name: 'login',
@@ -17,6 +18,8 @@ const routes = [
     name: 'home',
     component: HomeView
   },
+
+  // Category Page View
   {
     path: '/category',
     name: 'category-list',
@@ -32,6 +35,8 @@ const routes = [
     name: 'category-add',
     component: () => import('../views/category/CategoryAddView.vue')
   },
+
+  // Todo Page View
   {
     path: '/todo',
     name: 'todo-list',
@@ -47,7 +52,6 @@ const routes = [
     name: 'todo-add',
     component: () => import('../views/todo/TodoAddView.vue')
   },
-
   {
     path: '/todo/todo-by-category/:categoryId',
     name: 'todo-by-category',
@@ -57,6 +61,13 @@ const routes = [
     path: '/todo-add/todo-by-category/:categoryId',
     name: 'todo-add-by-category',
     component: () => import('../views/todo/TodoAddView.vue')
+  },
+
+  // User Page View
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import('../views/user/UserPageView.vue')
   },
 ]
 

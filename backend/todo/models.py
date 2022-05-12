@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 
 class Category(models.Model):
     title = models.CharField(max_length=250, unique=True)
-    detail = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -16,7 +16,7 @@ class Category(models.Model):
 
 class Todo(models.Model):
     title = models.CharField(max_length=250)
-    detail = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     is_done = models.BooleanField(default=False)
     created_date = models.DateTimeField(default=timezone.now)
     due_date = models.DateTimeField(default=timezone.now)

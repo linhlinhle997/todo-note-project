@@ -57,7 +57,7 @@
                 {{todo.title}}
               </h2>
               <p class="leading-relaxed">
-                {{todo.detail}}
+                {{todo.description}}
               </p>
               <div class="flex justify-end mt-2">
                 <router-link tag="button" :to="`/todo/${todo.id}/`" class="inline-flex hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-6 focus:outline-none rounded text-sm">
@@ -99,7 +99,7 @@
                 {{todo.title}}
               </h2>
               <p class="line-through leading-relaxed">
-                {{todo.detail}}
+                {{todo.description}}
               </p>
               <div class="flex justify-end mt-2">
                 <router-link tag="button" :to="`/todo/${todo.id}/`" class="inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-6 focus:outline-none rounded text-sm">
@@ -127,6 +127,9 @@ import moment from 'moment'
 
 export default {
   name: 'Todo',
+  created () {
+      document.title = "Todo By Category";
+    },
   data () {
     return {
       todos: [],
@@ -147,23 +150,22 @@ export default {
   },
   methods: {
     get_todos() {
-        axios({
-            method:'get',
-            url: 'http://127.0.0.1:8000/api/todo/?category=' + this.$route.params.categoryId,
-            auth: {
-                username: 'admin',
-                password: 'admin@123'
-            }
-        }).then(response => this.todos= response.data);
+      axios({
+        method:'get',
+        url: 'http://127.0.0.1:8000/api/todo/?category=' + this.$route.params.categoryId,
+        headers: {
+          Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+        },
+      }).then(response => this.todos= response.data.results)
+      .catch(err => console.log(this.error = err.response.data));
     },
     async update_todo(id) {
       await axios({
-          method:'get',
-          url: '/api/todo/' + id + '/',
-          auth: {
-            username: 'admin',
-            password: 'admin@123'
-          }
+        method:'get',
+        url: '/api/todo/' + id + '/',
+        headers: {
+          Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+        },
       }).then(response => {
         this.todo_detail = response.data;
 
@@ -172,37 +174,38 @@ export default {
           url: '/api/todo/' + id + '/',
           data: {
             title : this.todo_detail.title,
-            detail: this.todo_detail.detail,
+            description: this.todo_detail.description,
             is_done: this.todo_detail.is_done == true ? false : true,
             category: this.todo_detail.category,
             due_date: this.todo_detail.due_date,
           },
-          auth: {
-            username: 'admin',
-            password: 'admin@123'
-          }
-        }).then(response => this.get_todos());
-      });
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+          },
+        }).then(response => this.get_todos())
+        .catch(err => console.log(this.error = err.response.data));
+      })
+      .catch(err => console.log(this.error = err.response.data));
     },
     delete_todo(id) {
       axios({
         method: 'delete',
         url: 'http://127.0.0.1:8000/api/todo/' + id + '/',
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
-        }
-      }).then(response => this.get_todos());
+        headers: {
+          Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+        },
+      }).then(response => this.get_todos())
+      .catch(err => console.log(this.error = err.response.data));
     },
 		get_categories() {
       axios({
-          method:'get',
-          url: 'http://127.0.0.1:8000/api/category/',
-          auth: {
-              username: 'admin',
-              password: 'admin@123'
-          }
-      }).then(response => this.categories = response.data);
+        method:'get',
+        url: 'http://127.0.0.1:8000/api/category/',
+        headers: {
+          Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+        },
+      }).then(response => this.categories = response.data.results)
+      .catch(err => console.log(this.error = err.response.data));
 		},
     searchTodos() {
       let api_url = '/api/todo/?category=' + this.$route.params.categoryId;
@@ -212,11 +215,11 @@ export default {
       axios({
         method:'get',
         url: api_url,
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
-        }
-      }).then(response => this.todos= response.data);
+        headers: {
+          Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+        },
+      }).then(response => this.todos= response.data.results)
+      .catch(err => console.log(this.error = err.response.data));
     },
     format_date(value) {
       if (value) {
@@ -224,7 +227,7 @@ export default {
       }
     },
     isDeadline(due_date) {
-      var date = new Date();
+      const date = new Date();
       due_date = new Date(due_date);
       if(date <= due_date){
         return false;

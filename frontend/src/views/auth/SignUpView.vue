@@ -36,7 +36,12 @@
 							<input v-model="user.password" type="password" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
 						</div>
 					</div>
-
+					<div class="p-2 w-full">
+						<div class="relative">
+							<label for="repeatPassword" class="leading-7 text-sm text-blue-500">Repeat password</label>
+							<input v-model="user.repeatPassword" type="password" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+						</div>
+					</div>
 				</div>
         <!-- <div class="text-red-500 pt-3">
           <div v-for="value, key in error" >
@@ -62,6 +67,9 @@
 	import axios from 'axios'
 	export default {
 		name: 'Sign Up',
+		created () {
+      document.title = "Sign Up";
+    },
 		data () {
 			return {
 				user: {},
@@ -74,17 +82,19 @@
 			register() {
 				axios({
 					method: 'post',
-					url: '/api/register/',
+					url: '/api/signup/',
 					data: {
 						username : this.user.username,
 						first_name: this.user.first_name,
 						last_name: this.user.last_name,
 						email: this.user.email,
 						password: this.user.password,
+						repeatPassword: this.user.repeatPassword,
 					}
 				}).then(response => {
+					console.log(response.data)
 					this.$router.push('/login');
-				}).catch(err => this.error = err.response.data);
+				}).catch(err => console.log(this.error = err.response.data));
 			},
 			// format_key(key) {
 			// 	if(key == 'title')

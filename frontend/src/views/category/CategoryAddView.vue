@@ -15,27 +15,30 @@
 				<div class="flex flex-wrap -m-2">
 					<div class="p-2 w-full">
 						<div class="relative">
-							<label for="name" class="leading-7 text-sm text-blue-500">Title</label>
+							<label for="title" class="leading-7 text-sm text-blue-500">Title</label>
 							<input v-model="category.title" type="text" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
 						</div>
 					</div>
 					<div class="p-2 w-full">
 						<div class="relative">
-							<label for="message" class="leading-7 text-sm text-blue-500">Detail</label>
-							<textarea v-model="category.detail" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+							<label for="description" class="leading-7 text-sm text-blue-500">Description</label>
+							<textarea v-model="category.description" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
 						</div>
 					</div>
 					<div class="p-2 w-full">
 						<div class="relative">
-							<label for="name" class="leading-7 text-sm text-blue-500">Create date</label>
+							<label for="create_date" class="leading-7 text-sm text-blue-500">Create date</label>
 							<Datepicker v-model="date" enableSeconds disabled/>
 						</div>
 					</div>
 				</div>
-        <div class="text-red-500 pt-3">
+        <div class="text-red-500 pt-3 text-sm">
           <div v-for="value, key in error" >
-            <div v-for="text in value">
+            <div v-if="key!='detail'" v-for="text in value">
               * {{format_key(key)}}: {{text}} <br>
+            </div>
+            <div v-else>
+              * {{format_key(key)}}: {{value}} <br>
             </div>
           </div>
         </div>
@@ -60,7 +63,10 @@
 	import { ref } from 'vue';
 
 	export default {
-		name: 'Category Detail',
+		name: 'Category Add',
+		created () {
+      document.title = "Add Category";
+    },
 		data () {
 			return {
 				category: {},
@@ -84,25 +90,26 @@
 					url: '/api/category/',
 					data: {
 						title : this.category.title,
-						detail: this.category.detail,
+						description: this.category.description,
 						created_date: moment(this.date).format('YYYY-MM-DDThh:mm:ss'),
 					},
-					auth: {
-						username: 'admin',
-						password: 'admin@123'
-					}
+					headers: {
+						Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+					},
 				}).then(response => {
 					this.category = response.data;
 					this.$router.go(-1);
-				}).catch(err => this.error = err.response.data);
+				}).catch(err => console.log(this.error = err.response.data));
 			},
 			format_key(key) {
 				if(key == 'title')
 					return this.changeKey = 'Title';
-				if(key == 'detail')
-					return this.changeKey = 'Detail';
+				if(key == 'description')
+					return this.changeKey = 'Description';
 				if(key == 'created_date')
 					return this.changeKey = 'Create date';
+				if(key == 'detail')
+					return this.changeKey = 'Authentication';
 			},
 		},
 	}

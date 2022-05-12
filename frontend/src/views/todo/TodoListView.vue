@@ -53,7 +53,7 @@
                 {{todo.title}}
               </h2>
               <p class="leading-relaxed">
-                {{todo.detail}}
+                {{todo.description}}
               </p>
               <div class="flex justify-end mt-2">
                 <router-link tag="button" :to="`/todo/${todo.id}/`" class="inline-flex hover:text-blue-50 hover:bg-blue-500 bg-blue-50 text-blue-500 border-0 py-2 px-6 focus:outline-none rounded text-sm">
@@ -95,7 +95,7 @@
                 {{todo.title}}
               </h2>
               <p class="line-through leading-relaxed">
-                {{todo.detail}}
+                {{todo.description}}
               </p>
               <div class="flex justify-end mt-2">
                 <router-link tag="button" :to="`/todo/${todo.id}/`" class="inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-6 focus:outline-none rounded text-sm">
@@ -118,102 +118,104 @@
 </template>
 
 <script>
-import axios from 'axios'
-import moment from 'moment'
+  import axios from 'axios'
+  import moment from 'moment'
 
-export default {
-  name: 'Todo',
-  data () {
-    return {
-      todos: [],
-      search: '',
-      todo_detail: {},
-    }
-  },
-  mounted () { 
-    this.get_todos();
-    this.searchTodos();
-  },
-  methods: {
-    get_todos() {
-        axios({
-            method:'get',
-            url: '/api/todo/',
-            auth: {
-                username: 'admin',
-                password: 'admin@123'
-            }
-        }).then(response => this.todos= response.data);
+  export default {
+    name: 'Todo',
+    created () {
+      document.title = "Todo";
     },
-    async update_todo(id) {
-      await axios({
+    data () {
+      return {
+        todos: [],
+        search: '',
+        todo_detail: {},
+      }
+    },
+    mounted () { 
+      this.get_todos();
+      this.searchTodos();
+    },
+    methods: {
+      get_todos() {
+        axios({
+          method:'get',
+          url: '/api/todo/',
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+          },
+        }).then(response => this.todos= response.data.results)
+        .catch(err => console.log(this.error = err.response.data));
+      },
+      async update_todo(id) {
+        await axios({
           method:'get',
           url: '/api/todo/' + id + '/',
-          auth: {
-            username: 'admin',
-            password: 'admin@123'
-          }
-      }).then(response => {
-        this.todo_detail = response.data;
-
-        axios({
-          method: 'put',
-          url: '/api/todo/' + id + '/',
-          data: {
-            title : this.todo_detail.title,
-            detail: this.todo_detail.detail,
-            is_done: this.todo_detail.is_done == true ? false : true,
-            category: this.todo_detail.category,
-            due_date: this.todo_detail.due_date,
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
           },
-          auth: {
-            username: 'admin',
-            password: 'admin@123'
-          }
-        }).then(response => this.get_todos());
-      });
-    },
-    delete_todo(id) {
-      axios({
-        method: 'delete',
-        url: '/api/todo/' + id + '/',
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
+        }).then(response => {
+          this.todo_detail = response.data;
+
+          axios({
+            method: 'put',
+            url: '/api/todo/' + id + '/',
+            data: {
+              title : this.todo_detail.title,
+              description: this.todo_detail.description,
+              is_done: this.todo_detail.is_done == true ? false : true,
+              category: this.todo_detail.category,
+              due_date: this.todo_detail.due_date,
+            },
+            headers: {
+              Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+            },
+          }).then(response => this.get_todos())
+          .catch(err => console.log(this.error = err.response.data));
+        }).catch(err => console.log(this.error = err.response.data));
+      },
+      delete_todo(id) {
+        axios({
+          method: 'delete',
+          url: '/api/todo/' + id + '/',
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+          },
+        }).then(response => this.get_todos())
+        .catch(err => console.log(this.error = err.response.data));
+      },
+      searchTodos() {
+        let api_url = '/api/todo/';
+        if(this.search!==''||this.search!==null) {
+          api_url = `/api/todo/?search=${this.search}`
         }
-      }).then(response => this.get_todos());
-    },
-    searchTodos() {
-      let api_url = '/api/todo/';
-      if(this.search!==''||this.search!==null) {
-        api_url = `/api/todo/?search=${this.search}`
-      }
-      axios({
-        method:'get',
-        url: api_url,
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
+        axios({
+          method:'get',
+          url: api_url,
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+          },
+        }).then(response => this.todos= response.data.results)
+        .catch(err => console.log(this.error = err.response.data));
+      },
+      format_date(value){
+        if (value) {
+          return moment(String(value)).format('DD/MM/YYYY, HH:mm:ss')
         }
-      }).then(response => this.todos= response.data);
+      },
+      isDeadline(due_date) {
+        var date = new Date();
+        due_date = new Date(due_date);
+        if(date <= due_date){
+          return false;
+        }else{
+          return true;
+        }      
+      },
     },
-    format_date(value){
-      if (value) {
-        return moment(String(value)).format('DD/MM/YYYY, HH:mm:ss')
-      }
-    },
-    isDeadline(due_date) {
-      var date = new Date();
-      due_date = new Date(due_date);
-      if(date <= due_date){
-        return false;
-      }else{
-        return true;
-      }      
-    },
-  },
-  watch: {
-    
+    watch: {
+      
+    }
   }
-}
 </script>

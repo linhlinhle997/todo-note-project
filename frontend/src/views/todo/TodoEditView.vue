@@ -16,20 +16,20 @@
           <div class="flex flex-wrap -m-2">
             <div class="p-2 w-full">
               <div class="relative">
-                <label for="name" class="leading-7 text-sm text-blue-500">Title</label>
+                <label for="title" class="leading-7 text-sm text-blue-500">Title</label>
                 <input v-model="todo_detail.title" type="text" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
               </div>
             </div>
             <div class="p-2 w-full">
               <div class="relative">
-                <label for="message" class="leading-7 text-sm text-blue-500">Detail</label>
-                <textarea v-model="todo_detail.detail" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+                <label for="description" class="leading-7 text-sm text-blue-500">Description</label>
+                <textarea v-model="todo_detail.description" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
               </div>
             </div>
             <div class="p-2 w-full">
               <div class="relative">
-                <p class="leading-7 text-sm text-blue-500">Detail</p>
-                <label class="leading-7 text-sm text-gray-700" for="flexCheckDefault">
+                <p class="leading-7 text-sm text-blue-500">Status</p>
+                <label class="leading-7 text-sm text-gray-700" for="status">
                   Done
                 </label>
                 <input v-model="todo_detail.is_done" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
@@ -37,7 +37,7 @@
             </div>
             <div class="p-2 w-full">
               <div class="relative">
-                <label class="leading-7 text-sm text-blue-500" for="flexSelect">
+                <label class="leading-7 text-sm text-blue-500" for="category">
                   Category
                 </label>             
                 <select v-model="todo_detail.category" class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
@@ -49,7 +49,7 @@
             </div>
             <div class="p-2 w-full">
               <div class="relative">
-                <label for="name" class="leading-7 text-sm text-blue-500">Due date</label>
+                <label for="due_date" class="leading-7 text-sm text-blue-500">Due date</label>
                 <Datepicker v-model="todo_detail.due_date" enableSeconds :minDate="new Date()"  class="dp__theme_light">
                   <template #calendar-header="{ index, day }">
                     <div :class="index === 5 || index === 6 ? 'red-color' : ''">
@@ -61,15 +61,18 @@
             </div>
             <div class="p-2 w-full">
               <div class="relative">
-                <label for="name" class="leading-7 text-sm text-blue-500">Create date</label>
+                <label for="create_date" class="leading-7 text-sm text-blue-500">Create date</label>
                 <Datepicker v-model="todo_detail.created_date" enableSeconds disabled/>
               </div>
             </div>
           </div>
-          <div class="text-red-500 pt-3">
+          <div class="text-red-500 pt-3 text-sm">
             <div v-for="value, key in error" >
-              <div v-for="text in value">
+              <div v-if="key!='detail'" v-for="text in value">
                 * {{format_key(key)}}: {{text}} <br>
+              </div>
+              <div v-else>
+                * {{format_key(key)}}: {{value}} <br>
               </div>
             </div>
           </div>
@@ -87,88 +90,92 @@
   </section>
 </template>
 <script>
-import axios from 'axios'
-import moment from 'moment'
-import Datepicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
-import { ref, warn, watch } from 'vue';
+  import axios from 'axios'
+  import moment from 'moment'
+  import Datepicker from '@vuepic/vue-datepicker';
+  import '@vuepic/vue-datepicker/dist/main.css'
+  import { ref, warn, watch } from 'vue';
 
-export default {
-  name: 'Todo Detail',
-  data () {
-    return {
-      todo_detail: {},
-      categories: [],
-      selected: {},
-      error: null,
-      changeKey: null,
-    }
-  },
-	components: { Datepicker },
-  mounted () {
-    this.get_todo();
-    this.get_categories();
-  },
-  methods: {
-    get_todo() {
-      axios({
-        method: 'get',
-        url: '/api/todo/' + this.$route.params.todoId + '/',
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
-        }
-      }).then(response => this.todo_detail = response.data);
+  export default {
+    name: 'Todo Edit',
+		created () {
+      document.title = "Edit Todo";
     },
-    update_todo() {
-      axios({
-        method: 'put',
-        url: '/api/todo/' + this.$route.params.todoId + '/',
-        data: {
-          title : this.todo_detail.title,
-          detail: this.todo_detail.detail,
-          is_done: this.todo_detail.is_done,
-          category: this.todo_detail.category,
-          due_date: this.todo_detail.due_date,
-        },
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
-        }
-      }).then(response => {
-        this.todo_detail= response.data;
-        this.$router.go(-1);
-      }).catch(err => this.error = err.response.data);
-    },
-    get_categories() {
-        axios({
-            method:'get',
-            url: '/api/category/',
-            auth: {
-                username: 'admin',
-                password: 'admin@123'
-            }
-        }).then(response => this.categories= response.data);
-    },
-    format_date(value){
-      if (value) {
-        return moment(String(value)).format('DD/MM/YYYY, hh:mm:ss')
+    data () {
+      return {
+        todo_detail: {},
+        categories: [],
+        selected: {},
+        error: null,
+        changeKey: null,
       }
     },
-    format_key(key) {
-      if(key == 'title')
-        return this.changeKey = 'Title';
-      if(key == 'detail')
-        return this.changeKey = 'Detail';
-      if(key == 'created_date')
-        return this.changeKey = 'Create date';
-      if(key == "due_date")
-        return this.changeKey = 'Due date';
-      if(key == "is_done")
-        return this.changeKey = 'Status';
-    }
-  },
-}
+    components: { Datepicker },
+    mounted () {
+      this.get_todo();
+      this.get_categories();
+    },
+    methods: {
+      get_todo() {
+        axios({
+          method: 'get',
+          url: '/api/todo/' + this.$route.params.todoId + '/',
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+          },
+        }).then(response => this.todo_detail = response.data)
+        .catch(err => console.log(this.error = err.response.data));
+      },
+      update_todo() {
+        axios({
+          method: 'put',
+          url: '/api/todo/' + this.$route.params.todoId + '/',
+          data: {
+            title : this.todo_detail.title,
+            description: this.todo_detail.description,
+            is_done: this.todo_detail.is_done,
+            category: this.todo_detail.category,
+            due_date: this.todo_detail.due_date,
+          },
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+          },
+        }).then(response => {
+          this.todo_detail= response.data;
+          this.$router.go(-1);
+        }).catch(err => console.log(this.error = err.response.data));
+      },
+      get_categories() {
+          axios({
+            method:'get',
+            url: '/api/category/',
+            headers: {
+              Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+            },
+          }).then(response => this.categories= response.data.results)
+          .catch(err => console.log(this.error = err.response.data));
+      },
+      format_date(value){
+        if (value) {
+          return moment(String(value)).format('DD/MM/YYYY, hh:mm:ss')
+        }
+      },
+      format_key(key) {
+        if(key == 'title')
+          return this.changeKey = 'Title';
+        if(key == 'description')
+          return this.changeKey = 'Description';
+        if(key == 'created_date')
+          return this.changeKey = 'Create date';
+        if(key == "due_date")
+          return this.changeKey = 'Due date';
+        if(key == "is_done")
+          return this.changeKey = 'Status';
+        if(key == 'detail')
+          return this.changeKey = 'Authentication';
+      }
+    },
+  }
 </script>
 
 <style>
@@ -177,7 +184,6 @@ export default {
     }
     .dp__theme_light {
       --dp-success-color: #3b82f6;
-      --dp-success-color-disabled: #bfdbfe
-;
+      --dp-success-color-disabled: #bfdbfe;
     }
 </style>

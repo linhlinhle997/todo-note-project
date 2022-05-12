@@ -46,7 +46,7 @@
                   <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
                     {{ category.title }}
                   </h1>
-                  <p class="leading-relaxed mb-3">{{ category.detail }}</p>
+                  <p class="leading-relaxed mb-3">{{ category.description }}</p>
                 </router-link>
               </div>
               <div class="flex items-center flex-wrap mt-auto w-full">
@@ -74,64 +74,67 @@
 </template>
 
 <script>
-import axios from 'axios'
-import moment from 'moment'
+  import axios from 'axios'
+  import moment from 'moment'
 
-export default {
-  name: 'Category',
-  data () {
-    return {
-      categories: [],
-      search: '',
-    }
-  },
-  mounted () { 
-    this.get_categories();
-    this.searchCategories();
-  },
-  methods: {
-    get_categories() {
+  export default {
+    name: 'Category',
+    created () {
+      document.title = "Category";
+    },
+    data () {
+      return {
+        categories: [],
+        search: '',
+      }
+    },
+    mounted () { 
+      this.get_categories();
+      this.searchCategories();
+    },
+    methods: {
+      get_categories() {
         axios({
-            method:'get',
-            url: '/api/category/',
-            auth: {
-                username: 'admin',
-                password: 'admin@123'
-            }
-        }).then(response => this.categories= response.data);
-    },
-    delete_category(id) {
-      axios({
-        method: 'delete',
-        url: '/api/category/' + id + '/',
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
+          method:'get',
+          url: '/api/category/',
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+          },
+        }).then(response => this.categories= response.data.results)
+        .catch(err => console.log(this.error = err.response.data));
+      },
+      delete_category(id) {
+        axios({
+          method: 'delete',
+          url: '/api/category/' + id + '/',
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+          },
+        }).then(response => this.get_categories())
+        .catch(err => console.log(this.error = err.response.data));
+      },
+      searchCategories() {
+        let api_url = '/api/category/';
+        if(this.search!==''||this.search!==null) {
+          api_url = `/api/category/?search=${this.search}`
         }
-      }).then(response => this.get_categories());
-    },
-    searchCategories() {
-      let api_url = '/api/category/';
-      if(this.search!==''||this.search!==null) {
-        api_url = `/api/category/?search=${this.search}`
-      }
-      axios({
-        method:'get',
-        url: api_url,
-        auth: {
-          username: 'admin',
-          password: 'admin@123'
+        axios({
+          method:'get',
+          url: api_url,
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+          },
+        }).then(response => this.categories= response.data.results)
+        .catch(err => console.log(this.error = err.response.data));
+      },
+      format_date(value){
+        if (value) {
+          return moment(String(value)).format('DD/MM/YYYY, HH:mm:ss')
         }
-      }).then(response => this.categories= response.data);
-    },
-    format_date(value){
-      if (value) {
-        return moment(String(value)).format('DD/MM/YYYY, HH:mm:ss')
-      }
-    },
-    count_Status(todos, status) {
-      return todos.filter(i => i.is_done==status).length
-    },
+      },
+      count_Status(todos, status) {
+        return todos.filter(i => i.is_done==status).length
+      },
+    }
   }
-}
 </script>
