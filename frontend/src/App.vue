@@ -40,7 +40,7 @@
             <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
           </svg>
         </button>
-        <router-link tag="button" to="/about" class="inline-flex items-center text-blue-500 hover:text-blue-50 bg-blue-50 hover:bg-blue-500 border-0 py-1 px-3 focus:outline-none rounded text-sm mt-4 md:mt-0">
+        <router-link tag="button" to="/user" class="inline-flex items-center text-blue-500 hover:text-blue-50 bg-blue-50 hover:bg-blue-500 border-0 py-1 px-3 focus:outline-none rounded text-sm mt-4 md:mt-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
           </svg>

@@ -61,7 +61,7 @@ class Logout(APIView):
         token.delete()
         return Response(status=status.HTTP_200_OK)
 
-class UserListView(generics.ListCreateAPIView):
+class UserListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = CustomUser.objects.all()
     serializer_class = UserCreateSerializer
@@ -70,5 +70,5 @@ class UserListView(generics.ListCreateAPIView):
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     queryset = CustomUser.objects.all()
-    serializer_class = UserCreateSerializer
+    serializer_class = UserSerializer
     lookup_field = 'id' 

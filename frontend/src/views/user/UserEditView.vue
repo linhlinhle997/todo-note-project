@@ -2,7 +2,7 @@
 	<section class="text-blue-500 body-font relative">
 		<div class="container px-5 py-5 mx-auto">
 			<div class="flex flex-col text-center w-full">
-				<h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-blue-500">Sign Up</h1>
+				<h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-blue-500">Edit User</h1>
 			</div>
 			<div class="lg:w-1/2 md:w-2/3 mx-auto">
 				<div class="flex flex-wrap -m-2">
@@ -45,16 +45,19 @@
 				</div>
         <div class="text-red-500 pt-3 text-sm">
           <div v-for="value, key in error" >
-            <div v-for="text in value">
+            <div v-if="key!='detail'" v-for="text in value">
               * {{format_key(key)}}: {{text}} <br>
+            </div>
+            <div v-else>
+              * {{format_key(key)}}: {{value}} <br>
             </div>
           </div>
         </div>
 				<div class="flex justify-center mt-5">
-						<button v-on:click.prevent="register()" class="inline-flex text-blue-500 hover:text-blue-50 hover:bg-blue-500 bg-blue-50 border-0 py-2 px-6 focus:outline-non rounded text-lg">
+						<button v-on:click.prevent="update_user()" class="inline-flex text-blue-500 hover:text-blue-50 hover:bg-blue-500 bg-blue-50 border-0 py-2 px-6 focus:outline-non rounded text-lg">
 							Submit
 						</button>
-						<router-link tag="button" to="/" class="ml-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-6 focus:outline-none rounded text-lg">
+						<router-link tag="button" to="/user" class="ml-4 inline-flex text-gray-700 hover:text-gray-100 bg-gray-100 hover:bg-gray-700 border-0 py-2 px-6 focus:outline-none rounded text-lg">
 							Cancel
 						</router-link>
 				</div>
@@ -68,7 +71,7 @@
 	export default {
 		name: 'Sign Up',
 		created () {
-      document.title = "Sign Up";
+      document.title = "Edit User";
     },
 		data () {
 			return {
@@ -77,12 +80,25 @@
 				changeKey: null,
 			}
 		},
-		mounted () {},
+		mounted () {
+      this.get_user()
+    },
 		methods: {
-			register() {
+      get_user() {
+        axios({
+          method: 'get',
+          url: '/api/user/'+ this.$store.state.setUser.user.id + '/',
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+          },
+          }).then(response => {
+            this.user = response.data;
+          }).catch(error => console.log(this.error =  error.response.data))
+      },
+			update_user() {
 				axios({
 					method: 'post',
-					url: '/api/signup/',
+					url: '/api/user/' + this.$store.state.setUser.user.id + '/',
 					data: {
 						username : this.user.username,
 						first_name: this.user.first_name,
@@ -90,9 +106,12 @@
 						email: this.user.email,
 						password: this.user.password,
 						repeatPassword: this.user.repeatPassword,
-					}
+					},
+          headers: {
+            Authorization: 'Token' + ' ' + this.$store.state.setUser.token
+          },
 				}).then(response => {
-					this.$router.push('/login');
+					this.$router.push('/user');
 				}).catch(err => console.log(this.error = err.response.data));
 			},
 			format_key(key) {
@@ -106,6 +125,8 @@
 					return this.changeKey = 'Password';
 				if(key == 'username')
 					return this.changeKey = 'User name';
+        if(key == 'detail')
+					return this.changeKey = 'Authentication';
 			},
 		},
 	}

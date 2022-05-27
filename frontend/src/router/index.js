@@ -65,9 +65,14 @@ const routes = [
 
   // User Page View
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/user/UserPageView.vue')
+    path: '/user',
+    name: 'user',
+    component: () => import('../views/user/UserView.vue')
+  },
+  {
+    path: '/user/:userId',
+    name: 'user-edit',
+    component: () => import('../views/user/UserEditView.vue')
   },
 ]
 
